@@ -15,5 +15,5 @@ Fitur Food Explore:
 NIM          | Nama                    | Username Github
 -------------|-------------------------|----------------
 607062330072 | Muh Zayyan Al Thaaf Nur | ZAYYAN2179
-670620xxxx   | Nama Mahasiswa2         | usernameMhs2
-670620xxxx   | Nama Mahasiswa3         | usernameMhs3
+607062300060 | Bagas Aldianata         | Bagas284
+607062300017 | Muhammad Bayu Mahesa    | BAYUMAHESAA2
