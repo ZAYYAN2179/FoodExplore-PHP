@@ -1,0 +1,137 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.right {
+    float: left;
+    width: 70%; 
+    height: 100vh;
+}
+
+.list-menu {
+    padding: 40px 100px 0px 70px;
+}
+
+.judul {
+    font-size: 80px;
+    margin-bottom: -5px;
+}
+
+.jam-buka {
+    color : rgb(125, 125, 125);
+    margin-left: 5px;
+    display: flex;
+}
+
+.jam-buka h3 {
+    font-size: 20px;
+}
+
+.like {
+    height: 27px;
+    width: 25px;
+    margin-left: 535px;
+}
+
+.daftar-makanan {
+    margin-top: 15px;
+}
+
+.daftar-makanan h3 {
+    font-size: 40px;
+}
+
+.daftar-makanan p {
+    font-size: 23px;
+    line-height: 38px;
+}
+
+.left {
+    float: left;
+    width: 30%;
+    height: 100vh;
+    box-shadow: 4px 0px 5px 0px #d6d6d6;
+}
+
+
+.tombol-kembali {
+    display: flex;
+    margin: 29px 0px 0px 19px;
+    align-items: center;
+    text-align: center;
+}
+
+.link-kembali {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+}
+
+.tombol-kembali img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.title-kembali {
+    font-size: 30px;
+}
+
+.gambar-menu {
+    width: 250px;
+    height: 330px;
+    margin: 15px 0px 0px 97px;
+    border-radius: 37px;
+    box-shadow: 1px 1px 10px 2px rgb(171, 171, 171);
+}
+
+.ulasan-pembeli {
+    margin: 15px 0px 0px 97px;
+    font-size: 35px;
+}
+
+.nilai {
+    display: flex;
+    align-items: center;
+    margin: 5px 0px 0px 145px;
+}
+
+.nilai img {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+.penilaian {
+    margin: 0px 0px 0px 145px;
+    color: rgb(125, 125, 125);
+}
+
+.ulasan {
+    margin: 20px 0px -25px 135px;
+    font-size: 18px;
+    color: black;
+}
+
+.tombol-fitur {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFB72B;
+    height: 50px;
+    width: 200px;
+    border-radius: 8px;
+    font-size: 20px;
+    color: white;
+    margin: 30px 0px -10px 112px;
+    cursor: pointer;
+}
+
+.tombol-fitur:hover {
+    border: 2px solid #7B0A0A;
+    background-color: #e1e1e1;
+    color: #7B0A0A;
+}

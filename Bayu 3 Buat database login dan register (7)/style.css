@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+:root {
+    --yellow: #ffbd13;
+    --blue: #4383FF;
+    --blue-d-1: #3278FF;
+    --light: #F5F5F5;
+    --grey: #AAA;
+    --white: #fff;
+    --abuabu: #D9D9D9;
+    --red: #7B0A0A;
+    --shadow: 8px 8px 30px rgba(0,0,0,.05)
+}
+body {
+    background: var(--light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+wrapper {
+    background: var(--white);
+    padding: 2rem;
+    max-width: 576px;
+    width: 100%;
+    border-radius: .75rem;
+    box-shadow: var(--shadow);
+}
+.wrapper h1 {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+.rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-gap: .5rem;
+    font-size: 4rem;
+    color: var(--yellow);
+    margin-bottom: 2rem;
+
+}
+.rating .star {
+    cursor: pointer;
+}
+.rating .star.active {
+    opacity: 0;
+    animation: animate .5s calc(var(--i) * .1s) ease-in-out forwards;
+}
+@keyframes animate {
+    0% {
+        opacity: 0;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.rating .star:hover {
+    transform: scale(1.1);
+}
+textarea {
+    width: 100%;
+    background: var(--abuabu);
+    width: 750px;
+    height: 100px;
+    padding: 1rem;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    resize: none;
+    margin-bottom: .5rem;
+    text-align: center;
+    font-size: 1.5rem;
+}
+.btn-group {
+    grid-gap: .5rem;
+    align-items: center;
+    text-align: center;
+}
+.btn-group .btn {
+    padding: .75rem 1rem;
+    border-radius: .5rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: .875rem;
+    font-weight: 500;
+}
+.btn-group .btn.submit {
+    background: var(--red);
+    color: var(--white);
+    margin-top: 3rem;
+    width: 150px;
+    height: 60px;
+    border-radius: 5rem;
+    font-size: 25px;
+}
+.btn-group .btn.submit:hover {
+    background: var(--yellow);
+}
+.tombol-kembali {
+    position: absolute;
+    top: 28px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+}
+
+.kembali {
+    position: absolute;
+    top: 30px;
+    left: 70px;
+}
+
+
+  
