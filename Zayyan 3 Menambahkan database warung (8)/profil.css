@@ -1,0 +1,247 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+} */
+
+.header {
+    background-color: #7B0A0A;
+    width: 100%;
+    height: 125px;
+    position: relative;
+/* 
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 1000; */
+}
+
+.logoAplikasi {
+    position: absolute;
+    height: 140px;
+    top: -2.5%;
+    left: 1%;
+}
+
+.navigation {
+    position: absolute;
+    display: flex;
+    color: #B7B7B7;
+    top: 38%;
+    left: 28%;
+}
+
+.navigation>li {
+    list-style-type: none;
+    margin-right: 35%;
+}
+
+.navigation>li>a {
+    font-size: 28px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.active {
+    color: #FFB72B;
+}
+
+input[type="text"] {
+    padding: 10px 10px 10px 55px;
+    width: 23vw;
+    height: 50px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    font-size: 18px;
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+}
+
+.search-button {
+    position: absolute;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.search-button img {
+    width: 31px;
+    height: 31px;
+    position: absolute;
+    top: -16px;
+    left: 12px;
+    filter: invert(0.5);
+}
+
+.search {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 30%;
+    left: 68%;
+}
+
+.profil {
+    position: absolute;
+    left: 93%;
+    top: 30%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50px;
+}
+
+.container {
+    display: flex;
+    height: 83.2vh;
+}
+
+.kiri {
+    float: left;
+    width: 20%;
+    box-shadow: 4px 0px 5px 0px #d6d6d6;
+}
+.gambar-ubahprofil {
+    width: 30px;
+    height: 30px;
+}
+
+.ubah-profil {
+    display: flex;
+    margin: 70px 0px 0px 40px;
+    cursor: pointer;
+}
+
+.tombol-keluar {
+    display: flex;
+    margin: 50px 0px 0px 42px;
+    cursor: pointer;
+}
+
+.ubah-profil img,
+.tombol-keluar img {
+    margin-right: 20px;
+}
+
+.ubah-profil p {
+    font-size: 30px;
+    margin-top: 2.5px;
+    color: #FFB72B;
+}
+.tombol-keluar p {
+    font-size: 30px;
+    margin-top: 1.5px;
+    color: #B7B7B7;
+}
+
+.kanan {
+    float: left;
+    width: 80%;
+}
+
+.isi-kanan {
+    margin-left: 120px;
+    margin-top: 70px;
+}
+
+.judul {
+    font-size: 45px;
+    margin-bottom: 10px;
+    letter-spacing: 3px;
+}
+
+.frame-inner {
+    width: 900px;
+    position: relative;
+    border-top: 2px solid #d7d7d7;
+    max-width: 100%;
+    margin-bottom: 50px;
+}
+
+.border-profil {
+    border: 2px solid #d7d7d7;
+    border-radius: 14px;
+    width: 900px;
+    height: 350px;
+}
+
+.foto-profil {
+    border-radius: 50%;
+    width: 170px;
+    height: 170px;
+    top: 40px;
+    left: 60px;
+    position: relative;
+}
+
+.tombol-unggah {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 130px;
+    position: relative;
+    top: 20px;
+    left: 692px;
+    border: 1px solid #FFB72B;
+    border-radius: 8px;
+    font-size: 18px;
+    color: #FFB72B;
+    cursor: pointer;
+}
+
+.tombol-unggah:hover {
+    background-color: #FFB72B;
+    color: white;
+}
+
+.inputan {
+    /* position: relative;
+    top: -125px;
+    left: 530px; */
+    margin-left: 520px;
+    margin-top: -165px;
+}
+
+.nama,
+.nomor{
+    display: flex;
+}
+
+.nama p {
+    margin-right: 150px;
+    margin-left: -200px;
+    margin-top: 10px;
+    font-size: 22px;
+}
+
+.nomor p {
+    margin-right: 144px;
+    margin-left: -200px;
+    margin-top: 10px;
+    font-size: 22px;
+}
+
+.nama input[type="text"],
+.email input[type="text"],
+.nomor input[type="text"]{
+    padding: 10px 0px 10px 20px;
+    width: 19vw;
+    height: 45px;
+    border: 1px solid #d7d7d7;
+    border-radius: 10px;
+    font-size: 15px;
+    color: rgb(0, 0, 0);
+    background-color: transparent;
+    margin-bottom: 25px;
+}
+
