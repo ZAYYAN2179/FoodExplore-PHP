@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="../CSS/warung.css">
+
+        <script src="../JavaScript/gambar.js"></script>
+        <script src="../JavaScript/menu.js"></script>
+    </head>
+
+    <body>
+        <div class="header">
+            <img class="logoAplikasi" src="../Gambar/logo_FoodExplore.png">
+            <ul class="navigation">
+                    <li><a href="index.html" style="color: #B7B7B7;">Beranda</a></li>
+                    <li><a class="active">Warung</a></li>
+                    <li><a href="Bookmark.html" style="color: #B7B7B7">Bookmark</a></li>
+            </ul>
+
+            <div class="search">
+                    <input type="text" placeholder="Temukan Makanan ...">
+                    <button class="search-button">
+                        <img src="../Gambar/search-alt-2-regular-24.png" alt="Search">
+                    </button>
+            </div>
+
+            <a href="profil.html">
+                <img class="profil" src="../Gambar/user-circle-regular-24.png">
+            </a>
+        </div>
+
+        <div class="main">
+            <h2 class="bookmark">Daftar Warung Makan</h2>
+
+            <div class="macam-warung1">
+                <div class="warung1">
+                    <img src="../Gambar/Pujasera.jpg" 
+                        class="gambar-pujasera" 
+                        onclick="openModal(this)">
+
+                    <h1 class="title-pujasera">Ayam Penyet dan Geprek Telkom</h1>
+
+                    <div class="penilaian-pujasera">
+                        <img src="../Gambar/Star 1.png">
+                        <h4>4.5 / 7 ulasan</h4>
+                    </div>
+
+                    <div class="tombol1">
+                        <div class="menu1">
+                            <b>MENU</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warung2">
+                    <img src="../Gambar/vitosari.jpg" 
+                        class="gambar-vitosari" 
+                        onclick="openModal(this)">
+
+                    <h1 class="title-vitosari">Vitosari</h1>
+                    
+
+                    <div class="penilaian-vitosari">
+                        <img src="../Gambar/Star 1.png">
+                        <h4>4.8 / 5 ulasan</h4>
+                    </div>
+
+                    <div class="tombol2">
+                        <div class="menu2">
+                            <b>MENU</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warung3">
+                    <img src="../Gambar/warbang.jpg" 
+                        class="gambar-warbang" 
+                        onclick="openModal(this)">
+
+                    <h1 class="title-warbang">Warbang</h1>
+
+                    <div class="penilaian-warbang">
+                        <img src="../Gambar/Star 1.png">
+                        <h4>4.0 / 9 ulasan</h4>
+                    </div>
+
+                    <div class="tombol3">
+                        <div class="menu3">
+                            <b>MENU</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warung4">
+                    <img src="../Gambar/crispy54.jpg" 
+                        class="gambar-crispy54" 
+                        onclick="openModal(this)">
+
+                    <h1 class="title-crispy54">Ayam Crispy 54</h1>
+
+                    <div class="penilaian-crispy54">
+                        <img src="../Gambar/Star 1.png">
+                        <h4>4.8 / 3 ulasan</h4>
+                    </div>
+
+                    <div class="tombol4">
+                        <div class="menu4">
+                            <b>MENU</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="macam-warung2">
+                <div class="warung5">
+                    <img src="../Gambar/kremes.jpg" 
+                    class="gambar-kremes" 
+                    onclick="openModal(this)">  
+                    
+                    <h1 class="title-kremes">Ayam Kremes<br>Mas Jono</h1>
+
+                    <div class="penilaian-kremes">
+                        <img src="../Gambar/Star 1.png">
+                        <h4>4.1 / 6 ulasan</h4>
+                    </div>
+
+                    <div class="tombol5">
+                        <div class="menu5">
+                            <b>MENU</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warung6">
+                    <img src="../Gambar/ica food.jpg" 
+                    class="gambar-icafood" 
+                    onclick="openModal(this)">
+
+                    <h1 class="title-icafood">Ica Food</h1>
+
+                    <div class="penilaian-icafood">
+                        <img src="../Gambar/Star 1.png">
+                        <h4>4.3 / 3 ulasan</h4>
+                    </div>
+
+                    <div class="tombol6">
+                        <a href="Menu.html" style="color: white; text-decoration: none;">
+                        <div class="menu6">
+                            <b>MENU</b>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="warung7">
+                    <img src="../Gambar/kedai maryam.jpg" 
+                    class="gambar-kedaimariyam" 
+                    onclick="openModal(this)">
+
+                    <h1 class="title-kedaimariyam">Kedai Mba Mariyam</h1>
+
+                    <div class="penilaian-kedaimariyam">
+                        <img src="../Gambar/Star 1.png">
+                        <h4>4.0 / 4 ulasan</h4>
+                    </div>
+
+                    <div class="tombol7">
+                        <div class="menu7">
+                            <b>MENU</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="warung8">
+                    <img src="../Gambar/ayam baek.jpg" 
+                    class="gambar-ayambaek" 
+                    onclick="openModal(this)">
+
+                    <h1 class="title-ayambaek">Ayam Baek</h1>
+
+                    <div class="penilaian-ayambaek">
+                        <img src="../Gambar/Star 1.png">
+                        <h4>4.0 / 12 ulasan</h4>
+                    </div>
+
+                    <div class="tombol8">
+                        <div class="menu8">
+                            <b>MENU</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            
+        </div>
+
+        <div id="modal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="modalImage">
+        </div>
+
+        <div class="footer">
+            <div class="footer-kiri">
+                <h3 class="judul">Tentang Kami</h3>
+                <p class="isi">Sebuah website yang bertujuan memberikan informasi untuk mempermudah pencarian makanan dengan jasa pengiriman yang 
+                dikhususkan bagi anak asrama Telkom University. Fitur - fitur yang terdapat di website Food Explore yaitu pencarian 
+                makanan yang menyediakan jasa pengiriman, penilaian, dan ulasan.</p>
+            </div>
+
+            <div class="footer-kanan">
+                <h3 Class="kontak">Kontak Kami</h3>
+
+                <div class="wa">
+                    <img src="../Gambar/whatsapps.png">
+                    <h4 class="nomor">082141676046</h4>
+                </div>
+
+                <div class="ig">
+                    <img src="../Gambar/instagram-logo-24.png">
+                    <h4 class="nama-ig">food.explore_</h4>
+                </div>
+            </div>
+
+            <div class="cr">Created by Katokama Team | 2024</div>
+        </div>
+    </body>
+</html>
