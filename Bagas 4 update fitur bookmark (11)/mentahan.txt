@@ -1,0 +1,1092 @@
+<?php
+session_start();
+if (!isset($_SESSION['id_user'])) {
+    header('Location: login.php');
+    exit();
+}
+
+include 'koneksi.php';
+require_once 'tampil_rating.php';
+
+$id_user = $_SESSION['id_user'];
+
+// Mengambil data pengguna dari database
+$sql = "SELECT fullname, photo, username FROM users WHERE id_user = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id_user);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$fullname = $row['fullname'];
+$photo = $row['photo'] ? $row['photo'] : 'default.png';  // Default photo jika tidak ada
+$username = $row['username'];
+$stmt->close();
+
+$warung_id = isset($_GET['warung_id']) ? $_GET['warung_id'] : 0; // Misalnya, ambil dari parameter GET
+
+// Panggil fungsi untuk tabel reviews
+list($review_count_reviews, $avg_rating_reviews) = getWarungRating($conn, $warung_id, 'reviews');
+// Panggil fungsi untuk tabel vitosari
+list($review_count_vitosari, $avg_rating_vitosari) = getWarungRating($conn, $warung_id, 'vitosari');
+// Panggil fungsi untuk tabel vitosari
+list($review_count_masjono, $avg_rating_masjono) = getWarungRating($conn, $warung_id, 'masjono');
+$conn->close();
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="warung.css">
+    <script src="gambar.js"></script>
+    <script src="menu.js"></script>
+    <style>
+        .title-kremes {
+            white-space: pre-line; /* Allows for line breaks within text content */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img class="logoAplikasi" src="Gambar/logo_FoodExplore.png">
+        <ul class="navigation">
+            <li><a href="index.php" style="color: #B7B7B7;">Beranda</a></li>
+            <li><a class="active">Warung</a></li>
+            <li><a href="Bookmark.php" style="color: #B7B7B7">Bookmark</a></li>
+        </ul>
+        <div class="search">
+            <form id="searchForm" onsubmit="return false;">
+                <select id="warungSelect" onchange="filterWarung()">
+                    <option value="">Pilih Warung</option>
+                    <option value="Ayam Penyet dan Geprek Telkom">Ayam Penyet dan Geprek Telkom</option>
+                    <option value="Vitosari">Vitosari</option>
+                    <option value="Warbang">Warbang</option>
+                    <option value="Ayam Crispy 54">Ayam Crispy 54</option>
+                    <option value="Ayam Kremes Mas Jono">Ayam Kremes Mas Jono</option>
+                    <option value="Ica Food">Ica Food</option>
+                    <option value="Kedai Mba Mariyam">Kedai Mba Mariyam</option>
+                    <option value="Ayam Baek">Ayam Baek</option>
+                </select>
+            </form>
+        </div>
+        <a href="profil.php">
+            <img class="profil foto-profil" src="profil/<?php echo htmlspecialchars($photo); ?>" alt="Profile Picture">
+        </a>
+    </div>
+    <div class="main">
+        <h2 class="bookmark">Daftar Warung Makan</h2>
+        <div class="macam-warung1">
+            <div class="warung1 warung-item">
+                <img src="Gambar/Pujasera.jpg" class="gambar-pujasera" onclick="openModal(this)">
+                <h1 class="title-pujasera">Ayam Penyet dan Geprek Telkom</h1>
+                <div class="penilaian-pujasera">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol1">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu1">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung2 warung-item">
+                <img src="Gambar/vitosari.jpg" class="gambar-vitosari" onclick="openModal(this)">
+                <h1 class="title-vitosari">Vitosari</h1>
+                <div class="penilaian-vitosari">
+                    <img src="Gambar/Star 1.png">
+                    <h4><?php echo $avg_rating_vitosari; ?> / <?php echo $review_count_vitosari; ?> ulasan</h4>
+                </div>
+                <div class="tombol2">
+                    <a href="vitosari.php" style="text-decoration: none;">
+                        <div class="menu2">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung3 warung-item">
+                <img src="Gambar/warbang.jpg" class="gambar-warbang" onclick="openModal(this)">
+                <h1 class="title-warbang">Warbang</h1>
+                <div class="penilaian-warbang">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol3">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu3">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung4 warung-item">
+                <img src="Gambar/crispy54.jpg" class="gambar-crispy54" onclick="openModal(this)">
+                <h1 class="title-crispy54">Ayam Crispy 54</h1>
+                <div class="penilaian-crispy54">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol4">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu4">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="macam-warung2">
+            <div class="warung5 warung-item">
+                <img src="Gambar/kremes.jpg" class="gambar-kremes" onclick="openModal(this)">
+                <h1 class="title-kremes">Ayam Kremes Mas Jono</h1>
+                <div class="penilaian-kremes">
+                    <img src="Gambar/Star 1.png">
+                    <h4><?php echo $avg_rating_masjono; ?> / <?php echo $review_count_masjono; ?> ulasan</h4>
+                </div>
+                <div class="tombol5">
+                    <a href="masjono.php" style="text-decoration: none;">
+                        <div class="menu5">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung6 warung-item">
+                <img src="Gambar/ica food.jpg" class="gambar-icafood" onclick="openModal(this)">
+                <h1 class="title-icafood">Ica Food</h1>
+                <div class="penilaian-icafood">
+                    <img src="Gambar/Star 1.png">
+                    <h4><?php echo $avg_rating_reviews; ?> / <?php echo $review_count_reviews; ?> ulasan</h4>
+                </div>
+                <div class="tombol6">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu6">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung7 warung-item">
+                <img src="Gambar/kedai maryam.jpg" class="gambar-kedaimariyam" onclick="openModal(this)">
+                <h1 class="title-kedaimariyam">Kedai Mba Mariyam</h1>
+                <div class="penilaian-kedaimariyam">
+                <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol7">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu7">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung8 warung-item">
+                <img src="Gambar/ayam baek.jpg" class="gambar-ayambaek" onclick="openModal(this)">
+                <h1 class="title-ayambaek">Ayam Baek</h1>
+                <div class="penilaian-ayambaek">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol8">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu8">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    <div class="footer">
+        <div class="footer-kiri">
+            <h3 class="judul">Tentang Kami</h3>
+            <p class="isi">Sebuah website yang bertujuan memberikan informasi untuk mempermudah pencarian makanan dengan jasa pengiriman yang 
+            dikhususkan bagi anak asrama Telkom University. Fitur - fitur yang terdapat di website Food Explore yaitu pencarian 
+            makanan yang menyediakan jasa pengiriman, penilaian, dan ulasan.</p>
+        </div>
+        <div class="footer-kanan">
+            <h3 class="kontak">Kontak Kami</h3>
+            <div class="wa">
+                <img src="Gambar/whatsapps.png">
+                <h4 class="nomor">082141676046</h4>
+            </div>
+            <div class="ig">
+                <img src="Gambar/instagram-logo-24.png">
+                <h4 class="nama-ig">food.explore_</h4>
+            </div>
+        </div>
+        <div class="cr">Created by Katokama Team | 2024</div>
+    </div>
+    <script>
+        function filterWarung() {
+            var warungSelect = document.getElementById("warungSelect").value.toUpperCase();
+            var warungItems = document.querySelectorAll('.warung-item');
+            
+            warungItems.forEach(function(item) {
+                var title = item.querySelector('h1').innerText.toUpperCase();
+                if (warungSelect === "" || title.includes(warungSelect)) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+
+        function openModal(image) {
+            var modal = document.getElementById("modal");
+            var modalImage = document.getElementById("modalImage");
+            modal.style.display = "block";
+            modalImage.src = image.src;
+        }
+
+        function closeModal() {
+            var modal = document.getElementById("modal");
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+session_start();
+if (!isset($_SESSION['id_user'])) {
+    header('Location: login.php');
+    exit();
+}
+
+include 'koneksi.php';
+require_once 'tampil_rating.php';
+
+$id_user = $_SESSION['id_user'];
+
+// Mengambil data pengguna dari database
+$sql = "SELECT fullname, photo, username FROM users WHERE id_user = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id_user);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$fullname = $row['fullname'];
+$photo = $row['photo'] ? $row['photo'] : 'default.png';  // Default photo jika tidak ada
+$username = $row['username'];
+$stmt->close();
+
+$warung_id = isset($_GET['warung_id']) ? $_GET['warung_id'] : 0; // Misalnya, ambil dari parameter GET
+
+// Panggil fungsi untuk tabel reviews
+list($review_count_reviews, $avg_rating_reviews) = getWarungRating($conn, $warung_id, 'reviews');
+// Panggil fungsi untuk tabel vitosari
+list($review_count_vitosari, $avg_rating_vitosari) = getWarungRating($conn, $warung_id, 'vitosari');
+// Panggil fungsi untuk tabel vitosari
+list($review_count_masjono, $avg_rating_masjono) = getWarungRating($conn, $warung_id, 'masjono');
+$conn->close();
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="warung.css">
+    <style>
+        .title-kremes {
+            white-space: pre-line; /* Allows for line breaks within text content */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img class="logoAplikasi" src="Gambar/logo_FoodExplore.png">
+        <ul class="navigation">
+            <li><a href="index.php" style="color: #B7B7B7;">Beranda</a></li>
+            <li><a class="active">Warung</a></li>
+            <li><a href="Bookmark.php" style="color: #B7B7B7">Bookmark</a></li>
+        </ul>
+        <div class="search">
+            <form id="searchForm">
+                <input type="text" id="warungInput" placeholder="Cari nama warung..." oninput="filterWarung()">
+                <button type="button" onclick="clearSearch()">Clear</button>
+            </form>
+        </div>
+    </div>
+    <div class="main">
+        <h2 class="bookmark">Daftar Warung Makan</h2>
+        <div class="macam-warung1">
+            <div class="warung1 warung-item">
+                <img src="Gambar/Pujasera.jpg" class="gambar-pujasera" onclick="openModal(this)">
+                <h1 class="title-pujasera">Ayam Penyet dan Geprek Telkom</h1>
+                <div class="penilaian-pujasera">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol1">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu1">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung2 warung-item">
+                <img src="Gambar/vitosari.jpg" class="gambar-vitosari" onclick="openModal(this)">
+                <h1 class="title-vitosari">Vitosari</h1>
+                <div class="penilaian-vitosari">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol2">
+                    <a href="vitosari.php" style="text-decoration: none;">
+                        <div class="menu2">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung3 warung-item">
+                <img src="Gambar/warbang.jpg" class="gambar-warbang" onclick="openModal(this)">
+                <h1 class="title-warbang">Warbang</h1>
+                <div class="penilaian-warbang">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol3">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu3">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung4 warung-item">
+                <img src="Gambar/crispy54.jpg" class="gambar-crispy54" onclick="openModal(this)">
+                <h1 class="title-crispy54">Ayam Crispy 54</h1>
+                <div class="penilaian-crispy54">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol4">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu4">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="macam-warung2">
+            <div class="warung5 warung-item">
+                <img src="Gambar/kremes.jpg" class="gambar-kremes" onclick="openModal(this)">
+                <h1 class="title-kremes">Ayam Kremes Mas Jono</h1>
+                <div class="penilaian-kremes">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol5">
+                    <a href="masjono.php" style="text-decoration: none;">
+                        <div class="menu5">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung6 warung-item">
+                <img src="Gambar/ica food.jpg" class="gambar-icafood" onclick="openModal(this)">
+                <h1 class="title-icafood">Ica Food</h1>
+                <div class="penilaian-icafood">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol6">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu6">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung7 warung-item">
+                <img src="Gambar/kedai maryam.jpg" class="gambar-kedaimariyam" onclick="openModal(this)">
+                <h1 class="title-kedaimariyam">Kedai Mba Mariyam</h1>
+                <div class="penilaian-kedaimariyam">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol7">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu7">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung8 warung-item">
+                <img src="Gambar/ayam baek.jpg" class="gambar-ayambaek" onclick="openModal(this)">
+                <h1 class="title-ayambaek">Ayam Baek</h1>
+                <div class="penilaian-ayambaek">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol8">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu8">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    <div class="footer">
+        <div class="footer-kiri">
+            <h3 class="judul">Tentang Kami</h3>
+            <p class="isi">Sebuah website yang bertujuan memberikan informasi untuk mempermudah pencarian makanan dengan jasa pengiriman yang 
+            dikhususkan bagi anak asrama Telkom University. Fitur - fitur yang terdapat di website Food Explore yaitu pencarian 
+            makanan yang menyediakan jasa pengiriman, penilaian, dan ulasan.</p>
+        </div>
+        <div class="footer-kanan">
+            <h3 class="kontak">Kontak Kami</h3>
+            <div class="wa">
+                <img src="Gambar/whatsapps.png">
+                <h4 class="nomor">082141676046</h4>
+            </div>
+            <div class="ig">
+                <img src="Gambar/instagram-logo-24.png">
+                <h4 class="nama-ig">food.explore_</h4>
+            </div>
+        </div>
+        <div class="cr">Created by Katokama Team | 2024</div>
+    </div>
+    <script>
+        function filterWarung() {
+            var input = document.getElementById("warungInput").value.toUpperCase();
+            var warungItems = document.querySelectorAll('.warung-item');
+            
+            warungItems.forEach(function(item) {
+                var title = item.querySelector('h1').innerText.toUpperCase();
+                if (title.includes(input)) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = item.style.display = "none";
+                }
+            });
+        }
+
+        function clearSearch() {
+            document.getElementById("warungInput").value = "";
+            filterWarung(); // Reset tampilan warung setelah clear
+        }
+
+        function openModal(image) {
+            var modal = document.getElementById("modal");
+            var modalImage = document.getElementById("modalImage");
+            modal.style.display = "block";
+            modalImage.src = image.src;
+        }
+
+        function closeModal() {
+            var modal = document.getElementById("modal");
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+session_start();
+if (!isset($_SESSION['id_user'])) {
+    header('Location: login.php');
+    exit();
+}
+
+include 'koneksi.php';
+require_once 'tampil_rating.php';
+
+$id_user = $_SESSION['id_user'];
+
+// Mengambil data pengguna dari database
+$sql = "SELECT fullname, photo, username FROM users WHERE id_user = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id_user);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$fullname = $row['fullname'];
+$photo = $row['photo'] ? $row['photo'] : 'default.png';  // Default photo jika tidak ada
+$username = $row['username'];
+$stmt->close();
+
+$warung_id = isset($_GET['warung_id']) ? $_GET['warung_id'] : 0; // Misalnya, ambil dari parameter GET
+
+// Panggil fungsi untuk tabel reviews
+list($review_count_reviews, $avg_rating_reviews) = getWarungRating($conn, $warung_id, 'reviews');
+// Panggil fungsi untuk tabel vitosari
+list($review_count_vitosari, $avg_rating_vitosari) = getWarungRating($conn, $warung_id, 'vitosari');
+// Panggil fungsi untuk tabel vitosari
+list($review_count_masjono, $avg_rating_masjono) = getWarungRating($conn, $warung_id, 'masjono');
+$conn->close();
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="warung.css">
+    <style>
+        .title-kremes {
+            white-space: pre-line; /* Allows for line breaks within text content */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img class="logoAplikasi" src="Gambar/logo_FoodExplore.png">
+        <ul class="navigation">
+            <li><a href="index.php" style="color: #B7B7B7;">Beranda</a></li>
+            <li><a class="active">Warung</a></li>
+            <li><a href="Bookmark.php" style="color: #B7B7B7">Bookmark</a></li>
+        </ul>
+        <div class="search">
+            <form id="searchForm">
+                <input type="text" id="warungInput" list="warungList" placeholder="Cari nama warung..." oninput="filterWarung()">
+                <datalist id="warungList">
+                    <option value="Ayam Penyet dan Geprek Telkom">
+                    <option value="Vitosari">
+                    <option value="Warbang">
+                    <option value="Ayam Crispy 54">
+                    <option value="Ayam Kremes Mas Jono">
+                    <option value="Ica Food">
+                    <option value="Kedai Mba Mariyam">
+                    <option value="Ayam Baek">
+                </datalist>
+                <button type="button" onclick="clearSearch()">Clear</button>
+            </form>
+        </div>
+    </div>
+    <div class="main">
+        <h2 class="bookmark">Daftar Warung Makan</h2>
+        <div class="macam-warung1">
+            <div class="warung1 warung-item">
+                <img src="Gambar/Pujasera.jpg" class="gambar-pujasera" onclick="openModal(this)">
+                <h1 class="title-pujasera">Ayam Penyet dan Geprek Telkom</h1>
+                <div class="penilaian-pujasera">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol1">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu1">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung2 warung-item">
+                <img src="Gambar/vitosari.jpg" class="gambar-vitosari" onclick="openModal(this)">
+                <h1 class="title-vitosari">Vitosari</h1>
+                <div class="penilaian-vitosari">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol2">
+                    <a href="vitosari.php" style="text-decoration: none;">
+                        <div class="menu2">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung3 warung-item">
+                <img src="Gambar/warbang.jpg" class="gambar-warbang" onclick="openModal(this)">
+                <h1 class="title-warbang">Warbang</h1>
+                <div class="penilaian-warbang">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol3">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu3">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung4 warung-item">
+                <img src="Gambar/crispy54.jpg" class="gambar-crispy54" onclick="openModal(this)">
+                <h1 class="title-crispy54">Ayam Crispy 54</h1>
+                <div class="penilaian-crispy54">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol4">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu4">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="macam-warung2">
+            <div class="warung5 warung-item">
+                <img src="Gambar/kremes.jpg" class="gambar-kremes" onclick="openModal(this)">
+                <h1 class="title-kremes">Ayam Kremes Mas Jono</h1>
+                <div class="penilaian-kremes">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol5">
+                    <a href="masjono.php" style="text-decoration: none;">
+                        <div class="menu5">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung6 warung-item">
+                <img src="Gambar/ica food.jpg" class="gambar-icafood" onclick="openModal(this)">
+                <h1 class="title-icafood">Ica Food</h1>
+                <div class="penilaian-icafood">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol6">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu6">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung7 warung-item">
+                <img src="Gambar/kedai maryam.jpg" class="gambar-kedaimariyam" onclick="openModal(this)">
+                <h1 class="title-kedaimariyam">Kedai Mba Mariyam</h1>
+                <div class="penilaian-kedaimariyam">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol7">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu7">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung8 warung-item">
+                <img src="Gambar/ayam baek.jpg" class="gambar-ayambaek" onclick="openModal(this)">
+                <h1 class="title-ayambaek">Ayam Baek</h1>
+                <div class="penilaian-ayambaek">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol8">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu8">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    <div class="footer">
+        <div class="footer-kiri">
+            <h3 class="judul">Tentang Kami</h3>
+            <p class="isi">Sebuah website yang bertujuan memberikan informasi untuk mempermudah pencarian makanan dengan jasa pengiriman yang 
+            dikhususkan bagi anak asrama Telkom University. Fitur - fitur yang terdapat di website Food Explore yaitu pencarian 
+            makanan yang menyediakan jasa pengiriman, penilaian, dan ulasan.</p>
+        </div>
+        <div class="footer-kanan">
+            <h3 class="kontak">Kontak Kami</h3>
+            <div class="wa">
+                <img src="Gambar/whatsapps.png">
+                <h4 class="nomor">082141676046</h4>
+            </div>
+            <div class="ig">
+                <img src="Gambar/instagram-logo-24.png">
+                <h4 class="nama-ig">food.explore_</h4>
+            </div>
+        </div>
+        <div class="cr">Created by Katokama Team | 2024</div>
+    </div>
+    <script>
+        function filterWarung() {
+            var input = document.getElementById("warungInput").value.toUpperCase();
+            var options = document.getElementById("warungList").options;
+            
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].value.toUpperCase().indexOf(input) > -1) {
+                    options[i].style.display = "";
+                } else {
+                    options[i].style.display = "none";
+                }
+            }
+            
+            var warungItems = document.querySelectorAll('.warung-item');
+            warungItems.forEach(function(item) {
+                var title = item.querySelector('h1').innerText.toUpperCase();
+                if (title.indexOf(input) > -1) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+
+        function clearSearch() {
+            document.getElementById("warungInput").value = "";
+            var options = document.getElementById("warungList").options;
+            for (var i = 0; i < options.length; i++) {
+                options[i].style.display = "";
+            }
+            var warungItems = document.querySelectorAll('.warung-item');
+            warungItems.forEach(function(item) {
+                item.style.display = "";
+            });
+        }
+
+        function openModal(image) {
+            var modal = document.getElementById("modal");
+            var modalImage = document.getElementById("modalImage");
+            modal.style.display = "block";
+            modalImage.src = image.src;
+        }
+
+        function closeModal() {
+            var modal = document.getElementById("modal");
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+session_start();
+if (!isset($_SESSION['id_user'])) {
+    header('Location: login.php');
+    exit();
+}
+
+include 'koneksi.php';
+require_once 'tampil_rating.php';
+
+$id_user = $_SESSION['id_user'];
+
+// Mengambil data pengguna dari database
+$sql = "SELECT fullname, photo, username FROM users WHERE id_user = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id_user);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$fullname = $row['fullname'];
+$photo = $row['photo'] ? $row['photo'] : 'default.png';  // Default photo jika tidak ada
+$username = $row['username'];
+$stmt->close();
+
+$warung_id = isset($_GET['warung_id']) ? $_GET['warung_id'] : 0; // Misalnya, ambil dari parameter GET
+
+// Panggil fungsi untuk tabel reviews
+list($review_count_reviews, $avg_rating_reviews) = getWarungRating($conn, $warung_id, 'reviews');
+// Panggil fungsi untuk tabel vitosari
+list($review_count_vitosari, $avg_rating_vitosari) = getWarungRating($conn, $warung_id, 'vitosari');
+// Panggil fungsi untuk tabel vitosari
+list($review_count_masjono, $avg_rating_masjono) = getWarungRating($conn, $warung_id, 'masjono');
+$conn->close();
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="warung.css">
+    <style>
+        .title-kremes {
+            white-space: pre-line; /* Allows for line breaks within text content */
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img class="logoAplikasi" src="Gambar/logo_FoodExplore.png">
+        <ul class="navigation">
+            <li><a href="index.php" style="color: #B7B7B7;">Beranda</a></li>
+            <li><a class="active">Warung</a></li>
+            <li><a href="Bookmark.php" style="color: #B7B7B7">Bookmark</a></li>
+        </ul>
+        <div class="search">
+            <form id="searchForm">
+                <input type="text" id="warungInput" list="warungList" placeholder="Cari nama warung..." oninput="filterWarung()">
+                <datalist id="warungList">
+                    <option value="Ayam Penyet dan Geprek Telkom">
+                    <option value="Vitosari">
+                    <option value="Warbang">
+                    <option value="Ayam Crispy 54">
+                    <option value="Ayam Kremes Mas Jono">
+                    <option value="Ica Food">
+                    <option value="Kedai Mba Mariyam">
+                    <option value="Ayam Baek">
+                </datalist>
+                <button type="button" onclick="clearSearch()">Clear</button>
+            </form>
+        </div>
+    </div>
+    <div class="main">
+        <h2 class="bookmark">Daftar Warung Makan</h2>
+        <div class="macam-warung1">
+            <div class="warung1 warung-item">
+                <img src="Gambar/Pujasera.jpg" class="gambar-pujasera" onclick="openModal(this)">
+                <h1 class="title-pujasera">Ayam Penyet dan Geprek Telkom</h1>
+                <div class="penilaian-pujasera">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol1">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu1">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung2 warung-item">
+                <img src="Gambar/vitosari.jpg" class="gambar-vitosari" onclick="openModal(this)">
+                <h1 class="title-vitosari">Vitosari</h1>
+                <div class="penilaian-vitosari">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol2">
+                    <a href="vitosari.php" style="text-decoration: none;">
+                        <div class="menu2">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung3 warung-item">
+                <img src="Gambar/warbang.jpg" class="gambar-warbang" onclick="openModal(this)">
+                <h1 class="title-warbang">Warbang</h1>
+                <div class="penilaian-warbang">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol3">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu3">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung4 warung-item">
+                <img src="Gambar/crispy54.jpg" class="gambar-crispy54" onclick="openModal(this)">
+                <h1 class="title-crispy54">Ayam Crispy 54</h1>
+                <div class="penilaian-crispy54">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol4">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu4">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="macam-warung2">
+            <div class="warung5 warung-item">
+                <img src="Gambar/kremes.jpg" class="gambar-kremes" onclick="openModal(this)">
+                <h1 class="title-kremes">Ayam Kremes Mas Jono</h1>
+                <div class="penilaian-kremes">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol5">
+                    <a href="masjono.php" style="text-decoration: none;">
+                        <div class="menu5">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung6 warung-item">
+                <img src="Gambar/ica food.jpg" class="gambar-icafood" onclick="openModal(this)">
+                <h1 class="title-icafood">Ica Food</h1>
+                <div class="penilaian-icafood">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol6">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu6">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung7 warung-item">
+                <img src="Gambar/kedai maryam.jpg" class="gambar-kedaimariyam" onclick="openModal(this)">
+                <h1 class="title-kedaimariyam">Kedai Mba Mariyam</h1>
+                <div class="penilaian-kedaimariyam">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol7">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu7">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="warung8 warung-item">
+                <img src="Gambar/ayam baek.jpg" class="gambar-ayambaek" onclick="openModal(this)">
+                <h1 class="title-ayambaek">Ayam Baek</h1>
+                <div class="penilaian-ayambaek">
+                    <img src="Gambar/Star 1.png">
+                    <h4>0 / 0 ulasan</h4>
+                </div>
+                <div class="tombol8">
+                    <a href="Menu.php" style="text-decoration: none;">
+                        <div class="menu8">
+                            <b>MENU</b>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    <div class="footer">
+        <div class="footer-kiri">
+            <h3 class="judul">Tentang Kami</h3>
+            <p class="isi">Sebuah website yang bertujuan memberikan informasi untuk mempermudah pencarian makanan dengan jasa pengiriman yang 
+            dikhususkan bagi anak asrama Telkom University. Fitur - fitur yang terdapat di website Food Explore yaitu pencarian 
+            makanan yang menyediakan jasa pengiriman, penilaian, dan ulasan.</p>
+        </div>
+        <div class="footer-kanan">
+            <h3 class="kontak">Kontak Kami</h3>
+            <div class="wa">
+                <img src="Gambar/whatsapps.png">
+                <h4 class="nomor">082141676046</h4>
+            </div>
+            <div class="ig">
+                <img src="Gambar/instagram-logo-24.png">
+                <h4 class="nama-ig">food.explore_</h4>
+            </div>
+        </div>
+        <div class="cr">Created by Katokama Team | 2024</div>
+    </div>
+    <script>
+        function filterWarung() {
+            var input = document.getElementById("warungInput").value.toUpperCase();
+            var options = document.getElementById("warungList").options;
+            
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].value.toUpperCase().indexOf(input) > -1) {
+                    options[i].style.display = "";
+                } else {
+                    options[i].style.display = "none";
+                }
+            }
+            
+            var warungItems = document.querySelectorAll('.warung-item');
+            warungItems.forEach(function(item) {
+                var title = item.querySelector('h1').innerText.toUpperCase();
+                if (title.indexOf(input) > -1) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+
+        function clearSearch() {
+            document.getElementById("warungInput").value = "";
+            var options = document.getElementById("warungList").options;
+            for (var i = 0; i < options.length; i++) {
+                options[i].style.display = "";
+            }
+            var warungItems = document.querySelectorAll('.warung-item');
+            warungItems.forEach(function(item) {
+                item.style.display = "";
+            });
+        }
+
+        function openModal(image) {
+            var modal = document.getElementById("modal");
+            var modalImage = document.getElementById("modalImage");
+            modal.style.display = "block";
+            modalImage.src = image.src;
+        }
+
+        function closeModal() {
+            var modal = document.getElementById("modal");
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+</html>
+
+
+
