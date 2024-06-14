@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="../CSS/login.css">
+
+        <script src="../JavaScript/login.js"></script>
+    </head>
+
+    <body>
+        <div class="header">
+            <img class="logoAplikasi" src="../Gambar/logo_FoodExplore.png">
+            <ul class="navigation">
+                <li><a class="active">Beranda</a></li>
+                <li><a href="Warung.html" style="color: #B7B7B7">Warung</a></li>
+                <li><a href="Bookmark.html" style="color: #B7B7B7">Bookmark</a></li>
+            </ul>
+
+            <div class="search">
+                <input type="text" class="input-pencarian" placeholder="Temukan Makanan ...">
+                <button class="search-button">
+                    <img src="../Gambar/search-alt-2-regular-24.png" alt="Search">
+                </button>
+            </div>
+
+            <!-- <a href="profil.html"> -->
+                <img class="profil" src="../Gambar/user-circle-regular-24.png">
+            <!-- </a> -->
+        </div>
+
+        <div class="main">
+            <h1 class="judul">Selamat Datang</h1>
+            <h3 class="subjudul">Temukan makanan yang anda inginkan!!!</h3>
+            <h4 class="kalimat"><i>Tersedia berbagai informasi yang tersedia di dalamnya mengenai makanan yang menyediakan jasa pengiriman.</i></h4>
+        </div>
+
+            <img class="gambar" src="../Gambar/mangkuk hitam2crop.png">
+            <img class="gambar2" src="../Gambar/mangkuk putihcrop.png">
+
+        <div class="blur-bg-overlay"></div>
+
+        <div class="form-popup login-popup">
+            <div class="form-box">
+                <div class="form-details">
+                    <img src="../Gambar/logo_FoodExplore.png"class="logo-login">
+                </div>
+                <div class="form-content">
+                    <p>Login</p>
+                    <form action="#" class="kotak">
+                        <div class="input-field">
+                            <input type="text" class="isian" placeholder="Username"> 
+                        </div>
+                        <div class="input-field">
+                            <input type="password" class="isian" placeholder="Password" id="password">
+                            <img src="../Gambar/eye-close.png" class="mata-pass" id="eyeicon">
+                        </div>
+                        <div class="tombol-login-container">
+                            <button type="submit" class="tombol-login">Masuk</button>
+                        </div>
+                    </form>
+                    <div class="bottom-link">
+                        Belum mempunyai akun?
+                        <a href="#" class="buat-akun">Buat akun</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-popup register-popup">
+            <div class="form-box">
+                <div class="form-details">
+                    <img src="../Gambar/logo_FoodExplore.png"class="logo-login">
+                </div>
+                <div class="form-content">
+                    <p>Register</p>
+                    <form action="#" class="kotak">
+                        <div class="input-field">
+                            <input type="text" class="isian" placeholder="Username"> 
+                        </div>
+                        <div class="input-field">
+                            <input type="password" class="isian" placeholder="Password" id="password2">
+                            <img src="../Gambar/eye-close.png" class="mata-pass" id="eyeicon2">
+                        </div>
+                        <div class="input-field">
+                            <input type="password" class="isian" placeholder="Konfirmasi Password" id="password3">
+                            <img src="../Gambar/eye-close.png" class="mata-pass" id="eyeicon3">
+                        </div>
+                        <div class="tombol-login-container">
+                            <button type="submit" class="tombol-login">Buat Akun</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let eyeicon = document.getElementById("eyeicon");
+            let password = document.getElementById("password");
+
+            eyeicon.onclick = function() {
+            if (password.type == "password") {
+                password.type = "text";
+                eyeicon.src = "../Gambar/eye-open.png";
+            } else {
+                password.type = "password";
+                eyeicon.src = "../Gambar/eye-close.png";
+                }
+            }
+
+            let eyeicon2 = document.getElementById("eyeicon2");
+            let password2 = document.getElementById("password2");
+
+            eyeicon2.onclick = function() {
+            if (password2.type == "password") {
+                password2.type = "text";
+                eyeicon2.src = "../Gambar/eye-open.png";
+            } else {
+                password2.type = "password";
+                eyeicon2.src = "../Gambar/eye-close.png";
+                }
+            }
+
+            let eyeicon3 = document.getElementById("eyeicon3");
+            let password3 = document.getElementById("password3");
+
+            eyeicon3.onclick = function() {
+            if (password3.type == "password") {
+                password3.type = "text";
+                eyeicon3.src = "../Gambar/eye-open.png";
+            } else {
+                password3.type = "password";
+                eyeicon3.src = "../Gambar/eye-close.png";
+                }
+            }
+        </script>
+    </body>
+</html>
